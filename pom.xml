@@ -113,6 +113,11 @@
             <artifactId>TheGamesDBJavaAPI</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.koraktor</groupId>
+            <artifactId>steam-condenser</artifactId>
+            <version>1.3.1</version>
+        </dependency>
 
 	</dependencies>
 
