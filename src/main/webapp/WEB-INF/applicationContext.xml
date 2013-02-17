@@ -1,29 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sec="http://www.springframework.org/schema/security"
-	xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xsi:schemaLocation="
-	    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
-	    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
-	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd   
-	    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd   
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+	    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
 	    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
 	    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-	    http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd 
-	    http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+	    http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+	    http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<context:component-scan base-package="com.porpoise.gamemanager" />
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:config/dev/mongo.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <context:component-scan base-package="com.porpoise.gamemanager" />
 	<context:annotation-config />
+
+    <bean id="gson" class="com.google.gson.Gson"/>
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
-	<jaxrs:server id="restfulservices" address="/services">
+    <jaxrs:server id="restfulservices" address="/services">
 		<jaxrs:serviceBeans>
 			<bean class="com.porpoise.gamemanager.web.service.TimeOfTheDayServiceImpl" />
+            <bean class="com.porpoise.gamemanager.web.service.UserServiceImpl"/>
+            <bean class="com.porpoise.gamemanager.web.service.GameServiceImpl"/>
 		</jaxrs:serviceBeans>
 		<jaxrs:extensionMappings>
 			<entry key="json" value="application/json" />
@@ -31,6 +44,9 @@
 			<entry key="plain" value="text/plan" />
 		</jaxrs:extensionMappings>
 		<jaxrs:languageMappings />
+        <jaxrs:providers>
+            <bean class="com.porpoise.gamemanager.web.provider.GsonMessageBodyHandler"/>
+        </jaxrs:providers>
 	</jaxrs:server>
 
 
@@ -52,5 +68,29 @@
 			access="hasAnyRole('admin','customer')" />
 		<sec:http-basic />
 	</sec:http>
+
+    <bean id="mongoBuilder" class="com.porpoise.gamemanager.web.mongo.MongoBuilder"/>
+
+    <bean id="mongo" class="com.mongodb.Mongo" factory-bean="mongoBuilder" factory-method="buildMongoInstance">
+        <constructor-arg>
+            <value>${mongo.url}</value>
+        </constructor-arg>
+        <constructor-arg>
+            <value>${mongo.port}</value>
+        </constructor-arg>
+    </bean>
+
+    <bean id="morphia" class="com.google.code.morphia.Morphia"/>
+
+    <bean id="datastore" factory-bean="morphia" factory-method="createDatastore">
+        <constructor-arg ref="mongo"/>
+        <constructor-arg value="gamemanager"/>
+        <constructor-arg>
+            <value>${mongo.username}</value>
+        </constructor-arg>
+        <constructor-arg>
+            <value>${mongo.password}</value>
+        </constructor-arg>
+    </bean>
 
 </beans>

@@ -63,7 +63,7 @@ public class TimeOfTheDayServiceImpl implements TimeOfTheDayService {
 //        } catch (SteamCondenserException e) {
 //            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 //        }
-        return "";
+        return "complete";
 	}
 
 	@GET

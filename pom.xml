@@ -14,6 +14,7 @@
 	</properties>
 
 	<dependencies>
+
 		<!-- CXF -->
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
@@ -35,6 +36,11 @@
 			<artifactId>cxf-rt-core</artifactId>
 			<version>${cxf.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-databinding-aegis</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
 
 		<!-- SPRING -->
 		<dependency>
@@ -77,12 +83,16 @@
 			<artifactId>spring-security-aspects</artifactId>
 			<version>${springsec.version}</version>
 		</dependency>
+
+        <!-- JUNIT -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
+
+        <!-- Apache HTTP -->
         <dependency>
         	<groupId>org.apache.httpcomponents</groupId>
         	<artifactId>httpclient</artifactId>
@@ -108,6 +118,8 @@
         	<artifactId>fluent-hc</artifactId>
         	<version>4.2.3</version>
         </dependency>
+
+        <!-- Game APIs -->
         <dependency>
             <groupId>com.porpoise</groupId>
             <artifactId>TheGamesDBJavaAPI</artifactId>
@@ -119,25 +131,51 @@
             <version>1.3.1</version>
         </dependency>
 
+        <!-- Mongo -->
+        <dependency>
+            <groupId>com.google.code.morphia</groupId>
+            <artifactId>morphia</artifactId>
+            <version>0.99.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>bson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+
+        <!-- Utils -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>13.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+
+
+
 	</dependencies>
 
 	<build>
 		<finalName>gamemanager</finalName>
 		<plugins>
-			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>maven-jetty-plugin</artifactId>
-				<version>6.1.10</version>
-				<configuration>
-					<contextPath>/gamemanager</contextPath>
-					<connectors>
-						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-							<port>9090</port>
-							<maxIdleTime>60000</maxIdleTime>
-						</connector>
-					</connectors>
-				</configuration>
-			</plugin>
+			<!--<plugin>-->
+				<!--<groupId>org.mortbay.jetty</groupId>-->
+				<!--<artifactId>maven-jetty-plugin</artifactId>-->
+				<!--<version>6.1.10</version>-->
+				<!--<configuration>-->
+					<!--<contextPath>/gamemanager</contextPath>-->
+					<!--<connectors>-->
+						<!--<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">-->
+							<!--<port>9090</port>-->
+							<!--<maxIdleTime>60000</maxIdleTime>-->
+						<!--</connector>-->
+					<!--</connectors>-->
+				<!--</configuration>-->
+			<!--</plugin>-->
 		</plugins>
 	</build>
 </project>
