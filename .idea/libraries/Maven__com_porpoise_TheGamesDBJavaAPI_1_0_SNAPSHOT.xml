@@ -8,7 +8,6 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/com/porpoise/TheGamesDBJavaAPI/1.0-SNAPSHOT/TheGamesDBJavaAPI-1.0-SNAPSHOT-sources.jar!/" />
-      <root url="file://$PROJECT_DIR$/../TheGamesDBJavaAPI/src/main/java" />
     </SOURCES>
   </library>
 </component>
