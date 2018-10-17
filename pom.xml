@@ -8,9 +8,9 @@
 	<name>gamemanager</name>
 
 	<properties>
-		<springsec.version>3.2.15.RELEASE</springsec.version>
-		<spring.version>3.2.15.RELEASE</spring.version>
-		<cxf.version>2.5.2</cxf.version>
+		<springsec.version>5.1.1.RELEASE</springsec.version>
+		<spring.version>5.1.1.RELEASE</spring.version>
+		<cxf.version>3.2.6</cxf.version>
 	</properties>
 
 	<dependencies>
